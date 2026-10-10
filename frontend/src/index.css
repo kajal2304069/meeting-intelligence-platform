@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+
+body {
+  @apply bg-ink text-paper font-body antialiased;
+  background-image:
+    radial-gradient(ellipse 60% 40% at 15% -10%, rgba(45,217,196,0.07), transparent),
+    radial-gradient(ellipse 50% 30% at 100% 0%, rgba(245,166,35,0.05), transparent);
+  background-attachment: fixed;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #233443; border-radius: 999px; }
+
+.font-display { font-family: 'Space Grotesk', sans-serif; }
+.font-mono { font-family: 'IBM Plex Mono', monospace; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+@keyframes pulse-flow {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -40; }
+}
+.pulse-animate {
+  stroke-dasharray: 4 6;
+  animation: pulse-flow 1.6s linear infinite;
+}
+
+/* visible keyboard focus, per design floor */
+a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid #2DD9C4;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
