@@ -7,3 +7,7 @@ python-multipart>=0.0.9
 python-jose[cryptography]>=3.3
 bcrypt>=4.1
 psycopg[binary]>=3.1 
+faster-whisper>=1.0.3
+yt-dlp>=2024.8.6
+imageio-ffmpeg>=0.5.1
+requests>=2.31
