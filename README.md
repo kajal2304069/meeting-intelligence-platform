@@ -2,6 +2,10 @@
 
 An AI-powered meeting intelligence platform that transforms meeting recordings into structured summaries, decisions, actionable tasks, and productivity insights. Built with **React, FastAPI, PostgreSQL, and LLM-powered workflows**, it helps teams turn conversations into measurable outcomes.
 
+🚀 **Live Demo:** [Try AI Meeting Assistant](https://meeting-intelligence-platform-1.onrender.com)
+
+📂 **Source Code:** [GitHub Repository](https://github.com/kajal2304069/meeting-intelligence-platform)
+
 ## ✨ Overview
 
 Meetings often generate valuable information, but important decisions, action items, task owners, and deadlines can easily get lost. The AI Meeting Assistant automates this process by analyzing meeting recordings and presenting the results in a centralized, interactive dashboard.
@@ -139,60 +143,7 @@ The application is designed around company-scoped data and role-based permission
 Signup supports company creation or joining through an invite code, with domain-based company matching where configured.
 
 > **Security note:** Multi-tenancy and role-based access are design goals that must be verified through authorization tests, including attempts to access another company's records. Client-side route protection alone is not a security boundary.
-
----
-
-## 📁 Project Structure
-
-```text
-AI-Meeting-Assistant/
-├── backend/
-│   ├── app.py
-│   ├── auth.py
-│   ├── db_models.py
-│   ├── core_ext/
-│   │   ├── sentiment_analyzer.py
-│   │   ├── task_assigner.py
-│   │   ├── deadline_predictor.py
-│   │   ├── search_engine.py
-│   │   ├── productivity_scorer.py
-│   │   ├── email_service.py
-│   │   └── llm_adapter.py
-│   ├── routers/
-│   │   ├── auth.py
-│   │   ├── meetings.py
-│   │   ├── tasks.py
-│   │   ├── search.py
-│   │   ├── analytics.py
-│   │   ├── employees.py
-│   │   └── ...
-│   └── requirements.txt
-├── frontend/
-│   ├── src/
-│   │   ├── api/
-│   │   ├── auth/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   └── ...
-│   ├── package.json
-│   └── ...
-├── core/
-│   ├── transcriber.py
-│   ├── summarizer.py
-│   ├── extractor.py
-│   └── rag_engine.py
-├── database/
-│   └── save_data.py
-├── utils/
-├── main.py
-├── .env.example
-└── README.md
-```
-
-*The tree illustrates the intended organization; filenames and modules may vary slightly depending on the current repository version.*
-
----
-
+> 
 ## ⚙️ Getting Started
 
 ### Prerequisites
