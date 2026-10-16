@@ -88,7 +88,6 @@ def _process_and_store(source: str, language: str, company_id: int, user_id: Opt
                 status=t.get("status", "Pending"),
             ))
         db.commit()
-        return meeting.id
     finally:
         db.close()
 
