@@ -11,7 +11,7 @@ from core.extractor import extract_action_items, extract_key_decisions, extract_
 from core.rag_engine import build_rag_chain, ask_question
 from database.save_data import save_to_database
 
-# --- New AI feature modules (backend/core_ext) ---
+
 from backend.core_ext.sentiment_analyzer import analyze_sentiment
 from backend.core_ext.task_assigner import auto_assign_all
 from backend.core_ext.deadline_predictor import predict_deadline
@@ -49,11 +49,11 @@ def run_pipeline(source: str, language: str = "english") -> dict:
 
     action_item = extract_action_items(transcript)
 
-    # --- Task Auto Assignment: fill in owners the extractor couldn't find ---
+    # Task Auto Assignment: fill in owners the extractor couldn't find
     roster = get_employee_roster()
     action_item = auto_assign_all(action_item, transcript, roster)
 
-    # --- Deadline Prediction: fill in deadlines the extractor couldn't find ---
+    # Deadline Prediction: fill in deadlines the extractor couldn't find
     action_item = [predict_deadline(t) for t in action_item]
 
     # Save extracted tasks

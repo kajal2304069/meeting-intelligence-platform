@@ -13,10 +13,12 @@ const NAV = [
   { to: '/employees', label: 'Employees', icon: '◐' },
 ]
 
-function Sidebar() {
+function Sidebar({ open, onClose }) {
   const { company } = useAuth()
   return (
-    <aside className="w-64 shrink-0 bg-panel border-r border-line flex flex-col h-screen sticky top-0">
+    <>
+    {open && <div className="fixed inset-0 bg-black/60 z-30 lg:hidden" onClick={onClose} />}
+    <aside className={`w-64 shrink-0 bg-panel border-r border-line flex flex-col h-screen fixed lg:sticky top-0 left-0 z-40 transition-transform lg:translate-x-0 ${open ? 'translate-x-0' : '-translate-x-full'}`}>
       <div className="px-5 py-6 border-b border-line">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-signal/15 border border-signal/30 flex items-center justify-center text-signal font-display font-bold">M</div>
@@ -31,6 +33,7 @@ function Sidebar() {
           <NavLink
             key={item.to}
             to={item.to}
+            onClick={onClose}
             end={item.to === '/'}
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors relative group ${
@@ -59,6 +62,7 @@ function Sidebar() {
         <div className="text-mist text-[10px] font-mono mt-1 text-center">Listening for the next meeting</div>
       </div>
     </aside>
+    </>
   )
 }
 
@@ -84,7 +88,7 @@ function UserMenu() {
 
   const doLogout = () => {
     logout()
-    navigate('/login')
+    navigate('/')
   }
 
   return (
@@ -117,11 +121,12 @@ function UserMenu() {
   )
 }
 
-function TopBar() {
+function TopBar({ onMenu }) {
   const navigate = useNavigate()
   const [q, setQ] = React.useState('')
   return (
-    <header className="sticky top-0 z-10 backdrop-blur bg-ink/80 border-b border-line px-8 py-4 flex items-center gap-4">
+    <header className="sticky top-0 z-10 backdrop-blur bg-ink/80 border-b border-line px-4 sm:px-8 py-3 sm:py-4 flex items-center gap-3 sm:gap-4">
+      <button onClick={onMenu} className="lg:hidden w-9 h-9 rounded-lg border border-line text-paper shrink-0" aria-label="Open menu">☰</button>
       <form
         className="flex-1 max-w-xl relative"
         onSubmit={(e) => { e.preventDefault(); if (q.trim()) navigate(`/search?q=${encodeURIComponent(q)}`) }}
@@ -148,12 +153,13 @@ function TopBar() {
 }
 
 export default function Shell({ children }) {
+  const [menu, setMenu] = React.useState(false)
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
+      <Sidebar open={menu} onClose={() => setMenu(false)} />
       <div className="flex-1 min-w-0">
-        <TopBar />
-        <main className="px-8 py-8 max-w-7xl">{children}</main>
+        <TopBar onMenu={() => setMenu(true)} />
+        <main className="px-4 sm:px-8 py-6 sm:py-8 max-w-7xl">{children}</main>
       </div>
     </div>
   )

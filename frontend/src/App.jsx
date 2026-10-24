@@ -2,6 +2,7 @@ import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth/AuthContext.jsx'
 import Shell from './components/Shell.jsx'
+import Landing from './pages/Landing.jsx'
 import Login from './pages/Login.jsx'
 import Signup from './pages/Signup.jsx'
 import ExecutiveDashboard from './pages/ExecutiveDashboard.jsx'
@@ -35,9 +36,17 @@ function RedirectIfAuthed({ children }) {
   return children
 }
 
+function RootGate() {
+  const { token, loading } = useAuth()
+  if (loading) return <FullScreenLoading />
+  if (!token) return <Landing />
+  return <Shell><ExecutiveDashboard /></Shell>
+}
+
 function AppRoutes() {
   return (
     <Routes>
+      <Route path="/" element={<RootGate />} />
       <Route path="/login" element={<RedirectIfAuthed><Login /></RedirectIfAuthed>} />
       <Route path="/signup" element={<RedirectIfAuthed><Signup /></RedirectIfAuthed>} />
       <Route

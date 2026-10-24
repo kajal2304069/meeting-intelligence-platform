@@ -1,3 +1,4 @@
+import MeetingChat from '../components/MeetingChat.jsx'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { api } from '../api/client.js'
@@ -151,90 +152,6 @@ function TaskRow({ task, isManager, onChanged }) {
           </>
         )}
       </div>
-    </Card>
-  )
-}
-
-function MeetingChat({ meetingId, hasTranscript }) {
-  const [messages, setMessages] = useState([]) // { role: 'user' | 'ai', text }
-  const [question, setQuestion] = useState('')
-  const [asking, setAsking] = useState(false)
-  const [error, setError] = useState('')
-  const bottomRef = React.useRef(null)
-
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
-
-  const ask = async (e) => {
-    e.preventDefault()
-    const q = question.trim()
-    if (!q || asking) return
-    setError('')
-    setMessages((m) => [...m, { role: 'user', text: q }])
-    setQuestion('')
-    setAsking(true)
-    try {
-      const res = await api.chatWithMeeting(meetingId, q)
-      setMessages((m) => [...m, { role: 'ai', text: res.answer }])
-    } catch (err) {
-      setError(err.message || 'Failed to get an answer')
-      setMessages((m) => m.slice(0, -1)) // drop the unanswered question
-      setQuestion(q)
-    } finally {
-      setAsking(false)
-    }
-  }
-
-  return (
-    <Card className="p-6">
-      <SectionHeader eyebrow="RAG Chat" title="Ask about this meeting" />
-      {!hasTranscript ? (
-        <p className="text-mist text-sm">A transcript hasn't been processed for this meeting yet — chat will be available once it has.</p>
-      ) : (
-        <>
-          <div className="space-y-3 max-h-80 overflow-y-auto mb-4 pr-1">
-            {messages.length === 0 && (
-              <p className="text-mist text-sm">Ask things like "what did we decide about the launch date?" or "who owns the follow-up on pricing?"</p>
-            )}
-            {messages.map((msg, i) => (
-              <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div
-                  className={`max-w-[80%] rounded-xl px-3.5 py-2 text-sm leading-relaxed whitespace-pre-wrap ${
-                    msg.role === 'user'
-                      ? 'bg-signal/15 text-paper border border-signal/30'
-                      : 'bg-panelLight text-paper/90 border border-line'
-                  }`}
-                >
-                  {msg.text}
-                </div>
-              </div>
-            ))}
-            {asking && (
-              <div className="flex justify-start">
-                <div className="bg-panelLight text-mist border border-line rounded-xl px-3.5 py-2 text-sm font-mono">thinking…</div>
-              </div>
-            )}
-            <div ref={bottomRef} />
-          </div>
-          {error && <p className="text-coral text-xs font-mono mb-2">{error}</p>}
-          <form onSubmit={ask} className="flex gap-2">
-            <input
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              placeholder="Ask a question about this meeting..."
-              className="flex-1 bg-panelLight border border-line rounded-lg px-3 py-2.5 text-sm placeholder:text-mist outline-none focus:border-signal/50"
-            />
-            <button
-              type="submit"
-              disabled={asking || !question.trim()}
-              className="bg-signal text-ink font-medium px-4 py-2.5 rounded-lg text-sm hover:brightness-110 transition-all disabled:opacity-40"
-            >
-              Ask
-            </button>
-          </form>
-        </>
-      )}
     </Card>
   )
 }
