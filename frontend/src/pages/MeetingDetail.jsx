@@ -188,7 +188,7 @@ export default function MeetingDetail() {
 
   return (
     <div className="space-y-8">
-      <div>
+      <div className="page-in rounded-2xl border border-line bg-gradient-to-br from-signal/10 via-panel to-panel p-5 sm:p-7">
         <div className="flex items-center gap-3 mb-2 flex-wrap">
           <EditableTitle meeting={meeting} isManager={isManager} onSaved={(title) => setMeeting((m) => ({ ...m, title }))} />
           <SentimentBadge sentiment={meeting.sentiment} confidence={meeting.sentiment_confidence} />

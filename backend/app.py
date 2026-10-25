@@ -17,7 +17,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.db_models import init_db
-from backend.routers import meetings, tasks, search, analytics, voice_search, employees, auth, chat
+from backend.routers import meetings, tasks, search, analytics, voice_search, employees, auth, chat, assistant
 
 app = FastAPI(
     title="AI Meeting Assistant API",
@@ -30,10 +30,10 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-    "http://localhost:5173",
-    "http://localhost:3000",
-    "https://meeting-intelligence-platform-1.onrender.com", 
-],
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://meeting-intelligence-platform-1.onrender.com",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -62,3 +62,4 @@ app.include_router(voice_search.router, prefix="/api/voice-search", tags=["voice
 app.include_router(analytics.router, prefix="/api/analytics", tags=["analytics"])
 app.include_router(employees.router, prefix="/api/employees", tags=["employees"])
 app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
+app.include_router(assistant.router, prefix="/api/assistant", tags=["assistant"])

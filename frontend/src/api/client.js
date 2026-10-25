@@ -144,6 +144,9 @@ export const api = {
   remindTask: (id) => request(`/tasks/${id}/remind`, { method: 'POST' }),
 
   search: (q) => request(`/search?${new URLSearchParams({ q })}`),
+  // Company-wide AI assistant (text + optional image). Never falls back to demo
+  // data: failures must surface so the chat can tell the user what went wrong.
+  assistantChat: (payload) => authRequest('/assistant/chat', { method: 'POST', body: JSON.stringify(payload) }),
   voiceSearch: async (blob) => {
     try {
       const form = new FormData()

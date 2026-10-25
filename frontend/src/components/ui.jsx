@@ -1,4 +1,5 @@
 import React from 'react'
+import { CountUp } from './motion.jsx'
 
 /** Signature element: a waveform "pulse line" — doubles as a live-recording
  * motif and as a real data chart when given peaks. Reused across the app as
@@ -25,7 +26,7 @@ export function PulseLine({ peaks, height = 28, color = '#2DD9C4', animate = fal
         const y1 = mid - (v / max) * (mid - 3)
         const y2 = mid + (v / max) * (mid - 3)
         return (
-          <line key={i} x1={x} y1={y1} x2={x} y2={y2} stroke={color} strokeWidth="2"
+          <line key={i} x1={x} y1={y1} x2={x} y2={y2} stroke={color} strokeWidth="2" vectorEffect="non-scaling-stroke"
                 strokeLinecap="round" opacity={0.55 + (v / max) * 0.45}
                 className={animate ? 'pulse-animate' : ''} />
         )
@@ -37,12 +38,13 @@ export function PulseLine({ peaks, height = 28, color = '#2DD9C4', animate = fal
 export function StatCard({ label, value, sub, accent = 'signal', icon }) {
   const accents = { signal: 'text-signal', amber: 'text-amber', coral: 'text-coral', paper: 'text-paper' }
   return (
-    <div className="bg-panel border border-line rounded-xl p-5 shadow-panel">
-      <div className="flex items-center justify-between mb-3">
+    <div className="card-hover anim-pop relative overflow-hidden bg-panel border border-line rounded-xl p-4 sm:p-5 shadow-panel">
+      <div className={`absolute -right-6 -top-6 w-20 h-20 rounded-full blur-2xl opacity-20 ${{ signal: 'bg-signal', amber: 'bg-amber', coral: 'bg-coral', paper: 'bg-paper' }[accent]}`} aria-hidden="true" />
+      <div className="relative flex items-center justify-between mb-3">
         <span className="text-mist text-xs font-mono uppercase tracking-wider">{label}</span>
         {icon}
       </div>
-      <div className={`font-display text-3xl font-semibold ${accents[accent]}`}>{value}</div>
+      <div className={`relative font-display text-2xl sm:text-3xl font-semibold ${accents[accent]}`}><CountUp value={value} /></div>
       {sub && <div className="text-mist text-xs mt-1 font-mono">{sub}</div>}
     </div>
   )
@@ -118,7 +120,7 @@ export function ProductivityDial({ score = 0, size = 120, label }) {
 }
 
 export function Card({ children, className = '' }) {
-  return <div className={`bg-panel border border-line rounded-xl shadow-panel ${className}`}>{children}</div>
+  return <div className={`anim-pop bg-panel border border-line rounded-xl shadow-panel ${className}`}>{children}</div>
 }
 
 export function SectionHeader({ eyebrow, title, action }) {

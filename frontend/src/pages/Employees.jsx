@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { api } from '../api/client.js'
+import { PageBanner, EmptyState } from '../components/illustrations.jsx'
 import { Card, SectionHeader } from '../components/ui.jsx'
 
 export default function Employees() {
@@ -21,24 +22,25 @@ export default function Employees() {
 
   return (
     <div className="space-y-8">
-      <SectionHeader eyebrow="Roster" title="Employees" />
+      <PageBanner eyebrow="Roster" illo="team" title="Your team" sub="Add people so Mia can assign tasks and track who attended each meeting." />
 
       <Card className="p-5">
-        <form onSubmit={submit} className="flex flex-col md:flex-row gap-3">
+        <form onSubmit={submit} className="flex flex-col lg:flex-row gap-3">
           <input value={name} onChange={e => setName(e.target.value)} placeholder="Full name"
-                 className="flex-1 bg-panelLight border border-line rounded-lg px-3 py-2.5 text-sm placeholder:text-mist outline-none focus:border-signal/50" />
+                 className="flex-1 min-w-0 bg-panelLight border border-line rounded-lg px-3 py-2.5 text-sm placeholder:text-mist outline-none focus:border-signal/50" />
           <input value={team} onChange={e => setTeam(e.target.value)} placeholder="Team"
-                 className="flex-1 bg-panelLight border border-line rounded-lg px-3 py-2.5 text-sm placeholder:text-mist outline-none focus:border-signal/50" />
+                 className="flex-1 min-w-0 bg-panelLight border border-line rounded-lg px-3 py-2.5 text-sm placeholder:text-mist outline-none focus:border-signal/50" />
           <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email"
-                 className="flex-1 bg-panelLight border border-line rounded-lg px-3 py-2.5 text-sm placeholder:text-mist outline-none focus:border-signal/50" />
+                 className="flex-1 min-w-0 bg-panelLight border border-line rounded-lg px-3 py-2.5 text-sm placeholder:text-mist outline-none focus:border-signal/50" />
           <button className="bg-signal text-ink font-medium px-5 py-2.5 rounded-lg text-sm hover:brightness-110">Add</button>
         </form>
       </Card>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {employees.map(e => (
-          <Card key={e.id} className="p-5">
-            <div className="w-10 h-10 rounded-full bg-signal/10 border border-signal/30 flex items-center justify-center text-signal font-display font-semibold mb-3">
+      {employees.length === 0 && <Card><EmptyState illo="team" title="No team members yet" text="Add your first teammate above." /></Card>}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        {employees.map((e, i) => (
+          <Card key={e.id} className="card-hover p-5" >
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-signal/30 to-amber/20 border border-signal/30 flex items-center justify-center text-paper font-display font-semibold mb-3">
               {e.name.split(' ').map(p => p[0]).join('').slice(0, 2)}
             </div>
             <div className="text-paper text-sm font-medium">{e.name}</div>

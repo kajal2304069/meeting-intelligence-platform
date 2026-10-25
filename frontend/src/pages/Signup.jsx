@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext.jsx'
 import { Card } from '../components/ui.jsx'
+import AuthLayout from '../components/AuthLayout.jsx'
 
 export default function Signup() {
   const { signup } = useAuth()
@@ -30,16 +31,9 @@ export default function Signup() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-10">
-      <Card className="p-8 w-full max-w-sm">
-        <div className="flex items-center gap-2 mb-6">
-          <div className="w-8 h-8 rounded-lg bg-signal/15 border border-signal/30 flex items-center justify-center text-signal font-display font-bold">M</div>
-          <div>
-            <div className="font-display font-semibold text-paper leading-tight">Meeting AI</div>
-            <div className="text-mist text-[11px] font-mono">Control Room</div>
-          </div>
-        </div>
-        <h1 className="font-display text-xl font-semibold text-paper mb-1">Create account</h1>
+    <AuthLayout>
+      <Card className="p-6 sm:p-8 w-full">
+        <h1 className="font-display text-xl font-semibold text-paper mb-1">Create your account</h1>
         <p className="text-mist text-sm mb-5">Each company's meetings and tasks stay private to that company.</p>
 
         <div className="flex gap-2 mb-5 bg-panelLight rounded-lg p-1">
@@ -91,6 +85,6 @@ export default function Signup() {
           Already have an account? <Link to="/login" className="text-signal hover:underline">Sign in</Link>
         </p>
       </Card>
-    </div>
+    </AuthLayout>
   )
 }

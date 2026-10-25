@@ -53,7 +53,7 @@ html { scroll-behavior: smooth; }
 .anim-floaty { animation: floaty 6s ease-in-out infinite }
 .anim-drift { animation: drift 14s ease-in-out infinite }
 .anim-marquee { animation: marquee 30s linear infinite }
-.anim-pop { animation: pop .45s ease-out both }
+.anim-pop { animation: pop .45s ease-out backwards }
 .anim-drawer { animation: drawer .2s ease-out both }
 .text-sheen { background: linear-gradient(90deg,#2DD9C4,#9CF5E9,#2DD9C4); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: sheen 6s linear infinite }
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1) }
@@ -62,4 +62,30 @@ html { scroll-behavior: smooth; }
   .reveal { opacity: 1; transform: none; transition: none }
   .anim-floaty, .anim-drift, .anim-marquee, .text-sheen { animation: none }
   html { scroll-behavior: auto }
+}
+
+/* ---- app-wide motion + robot ---- */
+@keyframes blink { 0%,92%,100% { transform: scaleY(1) } 95% { transform: scaleY(.1) } }
+@keyframes scan { 0%,100% { transform: translateX(-2.5px) } 50% { transform: translateX(2.5px) } }
+@keyframes ring { 0% { transform: scale(.6); opacity: .7 } 100% { transform: scale(1.7); opacity: 0 } }
+@keyframes talk { 0%,100% { transform: scaleY(.3) } 50% { transform: scaleY(1) } }
+@keyframes glow { 0%,100% { opacity: .5 } 50% { opacity: 1 } }
+@keyframes pageIn { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
+@keyframes shimmer { from { background-position: -200% 0 } to { background-position: 200% 0 } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(24px) scale(.98) } to { opacity: 1; transform: none } }
+.rb-eye { transform-box: fill-box; transform-origin: center; animation: blink 4.5s infinite }
+.rb-think .rb-eye { animation: scan .9s ease-in-out infinite }
+.rb-ring { transform-box: fill-box; transform-origin: center; animation: ring 1.6s ease-out infinite }
+.rb-mouth { transform-box: fill-box; transform-origin: center; animation: talk .35s ease-in-out infinite }
+.rb-antenna { animation: glow 1.8s ease-in-out infinite }
+.rb-think .rb-antenna { animation-duration: .5s }
+.page-in { animation: pageIn .45s ease-out both }
+.skeleton { background: linear-gradient(90deg,#131E29 25%,#1B2A38 37%,#131E29 63%); background-size: 200% 100%; animation: shimmer 1.4s linear infinite }
+.anim-slideup { animation: slideUp .3s ease-out both }
+.card-hover { transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease }
+.card-hover:hover { transform: translateY(-2px); border-color: rgba(45,217,196,.4); box-shadow: 0 14px 34px -18px rgba(45,217,196,.35) }
+.no-scrollbar::-webkit-scrollbar { display: none }
+@media (prefers-reduced-motion: reduce) {
+  .rb-eye, .rb-ring, .rb-mouth, .rb-antenna, .page-in, .skeleton, .anim-slideup { animation: none }
+  .card-hover:hover { transform: none }
 }

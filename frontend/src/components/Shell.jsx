@@ -1,13 +1,15 @@
 import React from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'
+import AssistantLauncher from './AssistantLauncher.jsx'
+import Robot from './Robot.jsx'
 import { PulseLine } from './ui.jsx'
 import { useAuth } from '../auth/AuthContext.jsx'
 
 const NAV = [
   { to: '/', label: 'Executive Dashboard', icon: '◈' },
   { to: '/meetings', label: 'Meetings', icon: '▤' },
-  { to: '/search', label: 'AI Search', icon: '⌕' },
-  { to: '/voice-search', label: 'Voice Search', icon: '●' },
+  { to: '/search', label: 'AI Search & Chat', icon: '⌕' },
+  { to: '/voice-search', label: 'Talk to Mia', icon: '●' },
   { to: '/tasks', label: 'Task Tracking', icon: '✓' },
   { to: '/analytics', label: 'Analytics', icon: '▦' },
   { to: '/employees', label: 'Employees', icon: '◐' },
@@ -58,8 +60,11 @@ function Sidebar({ open, onClose }) {
             <div className="text-paper text-sm font-mono tracking-wide">{company.invite_code}</div>
           </div>
         )}
+        <NavLink to="/voice-search" onClick={onClose} className="flex items-center gap-2.5 bg-gradient-to-r from-signal/15 to-panelLight border border-signal/25 rounded-xl px-2.5 py-2 hover:border-signal/50 transition-colors">
+          <Robot size={36} />
+          <span className="leading-tight"><span className="block text-paper text-sm font-medium">Ask Mia</span><span className="block text-mist text-[10px] font-mono">AI assistant · voice & images</span></span>
+        </NavLink>
         <PulseLine height={20} color="#2DD9C4" />
-        <div className="text-mist text-[10px] font-mono mt-1 text-center">Listening for the next meeting</div>
       </div>
     </aside>
     </>
@@ -154,12 +159,14 @@ function TopBar({ onMenu }) {
 
 export default function Shell({ children }) {
   const [menu, setMenu] = React.useState(false)
+  const { pathname } = useLocation()
   return (
     <div className="flex min-h-screen">
       <Sidebar open={menu} onClose={() => setMenu(false)} />
       <div className="flex-1 min-w-0">
         <TopBar onMenu={() => setMenu(true)} />
-        <main className="px-4 sm:px-8 py-6 sm:py-8 max-w-7xl">{children}</main>
+        <main key={pathname} className="page-in px-4 sm:px-8 py-6 sm:py-8 max-w-7xl">{children}</main>
+        <AssistantLauncher />
       </div>
     </div>
   )

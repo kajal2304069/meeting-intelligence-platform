@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../api/client.js'
+import { PageBanner, EmptyState } from '../components/illustrations.jsx'
 import { SentimentBadge, ReviewStatusBadge, Card, SectionHeader } from '../components/ui.jsx'
 import ParticipantPicker from '../components/ParticipantPicker.jsx'
 import RecordMeeting from '../components/RecordMeeting.jsx'
@@ -33,9 +34,9 @@ export default function Meetings() {
 
   return (
     <div className="space-y-8">
-      <SectionHeader eyebrow="Recordings" title="Meetings" />
+      <PageBanner eyebrow="Recordings" illo="meetings" title="Meetings" sub="Record a call live, paste a link, or upload a file — Meeting AI writes the summary and finds the tasks." />
 
-      <Card className="p-5 space-y-5">
+      <Card className="p-4 sm:p-5 space-y-5">
         <div className="flex gap-2 bg-panelLight rounded-lg p-1 w-fit">
           <button type="button" onClick={() => setMode('link')}
             className={`text-xs font-mono px-4 py-1.5 rounded-md transition-colors ${mode === 'link' ? 'bg-signal text-ink' : 'text-mist'}`}>
@@ -65,7 +66,7 @@ export default function Meetings() {
         </div>
 
         {mode === 'link' ? (
-          <form onSubmit={submitLink} className="flex flex-col md:flex-row gap-3">
+          <form onSubmit={submitLink} className="flex flex-col lg:flex-row gap-3">
             <input
               value={source}
               onChange={(e) => setSource(e.target.value)}
@@ -84,25 +85,25 @@ export default function Meetings() {
       </Card>
 
       <div className="space-y-3">
-        {meetings.map(m => (
-          <Link to={`/meetings/${m.id}`} key={m.id}>
-            <Card className="p-5 hover:border-signal/40 transition-colors flex items-center justify-between gap-4">
+        {meetings.map((m, i) => (
+          <Link to={`/meetings/${m.id}`} key={m.id} className="block anim-pop" style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}>
+            <Card className="card-hover p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4">
               <div className="min-w-0">
-                <div className="flex items-center gap-3 mb-1">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-1">
                   <h3 className="font-display font-medium text-paper truncate">{m.title}</h3>
                   <SentimentBadge sentiment={m.sentiment} confidence={m.sentiment_confidence} />
                   <ReviewStatusBadge status={m.review_status} />
                 </div>
                 <p className="text-mist text-sm truncate">{m.summary}</p>
               </div>
-              <div className="text-right shrink-0">
+              <div className="sm:text-right shrink-0 flex sm:block gap-3">
                 <div className="text-xs font-mono text-mist">{new Date(m.date).toLocaleDateString()}</div>
                 <div className="text-xs font-mono text-signal">{m.task_count} tasks</div>
               </div>
             </Card>
           </Link>
         ))}
-        {meetings.length === 0 && <p className="text-mist text-sm">No meetings yet — process your first recording above.</p>}
+        {meetings.length === 0 && <Card><EmptyState illo="meetings" title="No meetings yet" text="Process your first recording above and it will show up here." /></Card>}
       </div>
     </div>
   )

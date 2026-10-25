@@ -4,6 +4,7 @@ import {
   BarChart, Bar, PieChart, Pie, Cell,
 } from 'recharts'
 import { api } from '../api/client.js'
+import { PageBanner } from '../components/illustrations.jsx'
 import { Card, SectionHeader, ProductivityDial } from '../components/ui.jsx'
 
 const SENTIMENT_COLORS = { Positive: '#2DD9C4', Neutral: '#7E93A3', Negative: '#FF5D7A' }
@@ -24,7 +25,7 @@ export default function Analytics() {
 
   return (
     <div className="space-y-8">
-      <SectionHeader eyebrow="Insights" title="Analytics" />
+      <PageBanner eyebrow="Insights" illo="analytics" accent="amber" title="Analytics" sub="Meeting volume, sentiment and how each person is delivering on their tasks." />
 
       <div className="grid md:grid-cols-2 gap-6">
         <Card className="p-6">
@@ -77,9 +78,9 @@ export default function Analytics() {
       {productivity && (
         <div>
           <div className="text-mist text-xs font-mono uppercase tracking-wider mb-4">Employee scorecards</div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {Object.entries(productivity.employees).map(([name, v]) => (
-              <Card key={name} className="p-5 flex flex-col items-center gap-2">
+              <Card key={name} className="card-hover p-5 flex flex-col items-center gap-2">
                 <ProductivityDial score={v.score ?? 0} size={90} />
                 <span className="text-paper text-sm font-medium">{name}</span>
                 <span className="text-mist text-xs font-mono">{v.completed}/{v.total} done · {v.on_time_rate}% on time</span>
